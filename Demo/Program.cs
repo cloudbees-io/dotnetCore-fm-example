@@ -30,7 +30,8 @@ public class Program
         app.MapControllers();
 
         Rox.Register(flagsContainer);
-        var sdkKey = "3bcbc9f3-7914-42a7-7f47-0961122a399c";
+        // TODO: insert your SDK key from https://cloudbees.io/ below.
+        var sdkKey = "<YOUR-SDK-KEY>";
         await Rox.Setup(sdkKey);
         app.Run();
         await Rox.Shutdown();
