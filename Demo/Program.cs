@@ -32,7 +32,16 @@ public class Program
         Rox.Register(flagsContainer);
         // TODO: insert your SDK key from https://cloudbees.io/ below.
         var sdkKey = "<YOUR-SDK-KEY>";
-        await Rox.Setup(sdkKey);
+        await Rox.Setup(sdkKey, new RoxOptions(new RoxOptions.RoxOptionsBuilder{
+            NetworkConfigurationsOptions = new Io.Rollout.Rox.Core.Client.NetworkConfigurationsOptions(
+                "https://api.vpc-install-test.saas-tools.beescloud.com/device/get_configuration",
+                "https://rox-conf.vpc-install-test.saas-tools.beescloud.com",
+                "https://api.vpc-install-test.saas-tools.beescloud.com/device/update_state_store/",
+                "https://rox-state.vpc-install-test.saas-tools.beescloud.com",
+                "https://fm-analytics.vpc-install-test.saas-tools.beescloud.com",
+                "https://sdk-notification-service.vpc-install-test.saas-tools.beescloud.com/sse"
+            )
+        }));
         app.Run();
         await Rox.Shutdown();
     }
