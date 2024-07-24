@@ -44,13 +44,13 @@ namespace Demo.Controllers
 
     public class WelcomeMessageResponse
     {
-        public String Message { get; set; }
+        public required String Message { get; set; }
     }
 
     public class DemoMessageResponse
     {
-        public String Message { get; set; }
-        public String FontColor { get; set; }
-        public int FontSize { get; set; }
+        public required String Message { get; set; }
+        public required String FontColor { get; set; }
+        public required int FontSize { get; set; }
     }
 }

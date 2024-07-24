@@ -1,37 +1,38 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Io.Rollout.Rox.Core.Entities;
 using Io.Rollout.Rox.Server;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-namespace Demo
+public class Program
 {
-    public class Program
-    {
-        static IRoxContainer flagsContainer = new FeatureManagement.Container();
-        public static FeatureManagement.Container FlagsContainer { get { return (FeatureManagement.Container) flagsContainer; }}
+    static IRoxContainer flagsContainer = new Demo.FeatureManagement.Container();
+    public static Demo.FeatureManagement.Container FlagsContainer { get { return (Demo.FeatureManagement.Container) flagsContainer; }}
 
-        public static async Task Main(string[] args)
+    public static async Task Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddControllers();
+        // Add services to the container.
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
         {
-            Rox.Register(Program.FlagsContainer);
-            // TODO: insert your SDK key from https://cloudbees.io/ below.
-            var sdkKey = "<YOUR-SDK-KEY>";
-            await Rox.Setup(sdkKey);
-            CreateHostBuilder(args).Build().Run();
-            await Rox.Shutdown();
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        app.UseHttpsRedirection();
+        app.MapControllers();
+
+        Rox.Register(flagsContainer);
+        var sdkKey = "3bcbc9f3-7914-42a7-7f47-0961122a399c";
+        await Rox.Setup(sdkKey);
+        app.Run();
+        await Rox.Shutdown();
     }
 }
