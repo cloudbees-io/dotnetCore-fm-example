@@ -68,20 +68,20 @@ Now that your application is running, go to your environment in *Feature managem
 | Flag type
 | Description
 
-| `showMessage`
+| `ShowMessage`
 | Boolean
 | Turns the message on or off.
 
-| `message`
+| `Message`
 | String
 | Sets the message text.
 
-| `fontSize`
+| `FontSize`
 | Number
 | Sets the font size in pixels.
 The flag value has the following variations: `12`, `16`, or `24`.
 
-| `fontColor`
+| `FontColor`
 | String
 | Sets the font color. The flag value has the following variations: `red`, `green`, or `blue`.
 
