@@ -1,0 +1,28 @@
+name: test-klocwork-workflow-dotnet
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+on:
+  workflow_dispatch:
+permissions:
+  scm-token-own: read
+  scm-token-org: read
+  id-token: write
+jobs:
+  build:
+    steps:
+      - name: checkout-source-code
+        uses: cloudbees-io/checkout@v1
+      - name: Run Klocwork
+        uses: cloudbees-io/perforce-klocwork-sast-plugin-private@v3
+        with:
+          url: ${{ vars.KLOCWORK_URL }}
+          token: ${{ secrets.KLOCWORK_APP_TOKEN }}
+          username: ${{ vars.KLOCWORK_USERNAME }}
+          projectName: explicit-dotnet
+          buildTool: dotnet
+          licenseHost: 54.162.178.237
+          enableAgentScan: false
+          buildSpecFile: /tmp/kwinject.out
+          tablesDirectory: /tmp/kwinjecttables
+          buildOptions: dotnet build /t:Rebuild /p:UseSharedCompilation=false /p:ProduceReferenceAssembly=false
+          ref: main
