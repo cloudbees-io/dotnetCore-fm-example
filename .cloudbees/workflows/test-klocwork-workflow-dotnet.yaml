@@ -20,6 +20,7 @@ jobs:
           username: ${{ vars.KLOCWORK_USERNAME }}
           projectName: explicit-dotnet-preprod
           buildTool: dotnet
+          buildDirectory: Demo
           licenseHost: 54.162.178.237
           enableAgentScan: false
           buildSpecFile: /tmp/kwinject.out
