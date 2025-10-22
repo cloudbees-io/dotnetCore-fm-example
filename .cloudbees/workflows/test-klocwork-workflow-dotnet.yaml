@@ -16,7 +16,7 @@ jobs:
         uses: cloudbees-io/perforce-klocwork-sast-plugin-private@v3
         with:
           url: ${{ vars.KLOCWORK_URL }}
-          token: ${{ secrets.KLOCWORK_PASSWORD }}
+          password: ${{ secrets.KLOCWORK_PASSWORD }}
           username: ${{ vars.KLOCWORK_USERNAME }}
           projectName: explicit-dotnet
           buildTool: dotnet
