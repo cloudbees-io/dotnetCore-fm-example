@@ -18,7 +18,7 @@ jobs:
           url: ${{ vars.KLOCWORK_URL }}
           password: ${{ secrets.KLOCWORK_PASSWORD }}
           username: ${{ vars.KLOCWORK_USERNAME }}
-          projectName: explicit-dotnet
+          projectName: explicit-dotnet-preprod
           buildTool: dotnet
           licenseHost: 54.162.178.237
           enableAgentScan: false
