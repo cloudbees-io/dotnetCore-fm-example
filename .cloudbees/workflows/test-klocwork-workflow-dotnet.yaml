@@ -18,7 +18,7 @@ jobs:
 
       #  Install .NET SDK 8.0 manually
       - name: Install .NET SDK 8.0
-        uses: ubuntu
+        uses: docker://alpine:latest
         with:
           run: |
             echo "Installing .NET SDK 8.0..."
@@ -32,7 +32,7 @@ jobs:
 
       # (Optional) Restore and build before Klocwork
       - name: Restore and Build
-        uses: ubuntu
+        uses: docker://alpine:latest
         with:
           run: |
             export PATH="$HOME/.dotnet:$PATH"
