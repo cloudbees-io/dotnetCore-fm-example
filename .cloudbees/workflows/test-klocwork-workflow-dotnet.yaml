@@ -19,23 +19,25 @@ jobs:
       #  Install .NET SDK 8.0 manually
       - name: Install .NET SDK 8.0
         uses: cloudbees-io/shell@v1
-        run: |
-          echo "Installing .NET SDK 8.0..."
-          wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
-          chmod +x dotnet-install.sh
-          ./dotnet-install.sh --channel 8.0 --install-dir $HOME/.dotnet
-          echo "Adding .NET to PATH..."
-          echo "PATH=$HOME/.dotnet:$PATH" >> $BEE_WORKSPACE/.env
-          export PATH="$HOME/.dotnet:$PATH"
-          dotnet --info
+        with:
+          run: |
+            echo "Installing .NET SDK 8.0..."
+            wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+            chmod +x dotnet-install.sh
+            ./dotnet-install.sh --channel 8.0 --install-dir $HOME/.dotnet
+            echo "Adding .NET to PATH..."
+            echo "PATH=$HOME/.dotnet:$PATH" >> $BEE_WORKSPACE/.env
+            export PATH="$HOME/.dotnet:$PATH"
+            dotnet --info
 
       # (Optional) Restore and build before Klocwork
       - name: Restore and Build
         uses: cloudbees-io/shell@v1
-        run: |
-          export PATH="$HOME/.dotnet:$PATH"
-          dotnet restore Demo
-          dotnet build Demo --configuration Release
+        with:
+          run: |
+            export PATH="$HOME/.dotnet:$PATH"
+            dotnet restore Demo
+            dotnet build Demo --configuration Release
 
       # 🧪 Run Klocwork analysis
       - name: Run Klocwork
