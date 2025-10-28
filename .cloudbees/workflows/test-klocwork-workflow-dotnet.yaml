@@ -16,22 +16,18 @@ jobs:
       - name: Checkout source code
         uses: cloudbees-io/checkout@v1
 
-      - name: Install .NET SDK 8.0
-        uses: docker://alpine:latest
+      # Step 2: Verify .NET SDK (preinstalled in base image)
+      - name: Verify .NET SDK
+        uses: docker://mcr.microsoft.com/dotnet/sdk:8.0
         run: |
-          echo "Installing .NET SDK 8.0..."
-          wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
-          chmod +x dotnet-install.sh
-          ./dotnet-install.sh --channel 8.0 --install-dir $HOME/.dotnet
-          echo "Adding .NET to PATH..."
-          echo "PATH=$HOME/.dotnet:$PATH" >> $BEE_WORKSPACE/.env
-          export PATH="$HOME/.dotnet:$PATH"
+          echo "Verifying .NET SDK installation..."
           dotnet --info
 
+      # Step 3: Restore and build
       - name: Restore and Build
-        uses: docker://alpine:latest
+        uses: docker://mcr.microsoft.com/dotnet/sdk:8.0
         run: |
-          export PATH="$HOME/.dotnet:$PATH"
+          echo "Restoring dependencies and building project..."
           dotnet restore Demo
           dotnet build Demo --configuration Release
 
