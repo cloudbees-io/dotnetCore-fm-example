@@ -16,30 +16,25 @@ jobs:
       - name: Checkout source code
         uses: cloudbees-io/checkout@v1
 
-      #  Install .NET SDK 8.0 manually
       - name: Install .NET SDK 8.0
         uses: docker://alpine:latest
-        with:
-          run: |
-            echo "Installing .NET SDK 8.0..."
-            wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
-            chmod +x dotnet-install.sh
-            ./dotnet-install.sh --channel 8.0 --install-dir $HOME/.dotnet
-            echo "Adding .NET to PATH..."
-            echo "PATH=$HOME/.dotnet:$PATH" >> $BEE_WORKSPACE/.env
-            export PATH="$HOME/.dotnet:$PATH"
-            dotnet --info
+        run: |
+          echo "Installing .NET SDK 8.0..."
+          wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+          chmod +x dotnet-install.sh
+          ./dotnet-install.sh --channel 8.0 --install-dir $HOME/.dotnet
+          echo "Adding .NET to PATH..."
+          echo "PATH=$HOME/.dotnet:$PATH" >> $BEE_WORKSPACE/.env
+          export PATH="$HOME/.dotnet:$PATH"
+          dotnet --info
 
-      # (Optional) Restore and build before Klocwork
       - name: Restore and Build
         uses: docker://alpine:latest
-        with:
-          run: |
-            export PATH="$HOME/.dotnet:$PATH"
-            dotnet restore Demo
-            dotnet build Demo --configuration Release
+        run: |
+          export PATH="$HOME/.dotnet:$PATH"
+          dotnet restore Demo
+          dotnet build Demo --configuration Release
 
-      # 🧪 Run Klocwork analysis
       - name: Run Klocwork
         uses: cloudbees-io/perforce-klocwork-sast-plugin-private@v3
         with:
